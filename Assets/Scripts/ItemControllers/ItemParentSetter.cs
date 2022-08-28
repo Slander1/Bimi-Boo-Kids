@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ItemControllers
@@ -7,9 +8,14 @@ namespace ItemControllers
     {
         [SerializeField] private RectTransform itemContainer;
         [SerializeField] private RectTransform[] itemsSlotsContainer;
-
+        
+        [SerializeField] private RectTransform slotCreatePoint;
+        [SerializeField] private RectTransform itemCreatePoint;
+        
         private ItemsPositioner _itemsPositioner;
         private ItemsCreator _itemsCreator;
+
+        public event Action<Transform> ParentSet; 
 
         public void Init(ItemsPositioner itemsPositioner, ItemsCreator itemsCreator)
         {
@@ -29,14 +35,17 @@ namespace ItemControllers
         {
             var itemTransform = dragHandler.transform;
             itemTransform.SetParent(itemSlot.transform, true);
-            SetTransform(itemTransform, -2);
+            //dragHandler.transform.position = slotCreatePoint.transform.position;
+            //SetTransform(itemTransform, -2);
         }
 
         private void OnItemCreated(DragHandler dragHandler)
         {
             var itemTransform = dragHandler.transform;
             itemTransform.SetParent(itemContainer, true);
-            SetTransform(itemTransform, -2);
+            dragHandler.transform.position = itemCreatePoint.transform.position;
+            ParentSet?.Invoke(dragHandler.transform);
+            //SetTransform(itemTransform, -2);
         }
 
         private void OnItemSlotCreated(List<ItemSlot> itemsSlots)
@@ -45,15 +54,11 @@ namespace ItemControllers
             {
                 var itemSlotTransform = itemsSlots[i].transform;
                 itemSlotTransform.SetParent(itemsSlotsContainer[i], true);
-                SetTransform(itemSlotTransform, -1);
+                itemSlotTransform.position = slotCreatePoint.transform.position;
+                ParentSet?.Invoke(itemsSlotsContainer[i].transform);
+                //SetTransform(itemSlotTransform, -1);
             }
         }
-
-        private static void SetTransform(Transform pos, int z)
-        {
-            pos.localPosition = new Vector3(0, 0, z);
-        }
-
     }
 }
 

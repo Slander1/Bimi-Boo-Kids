@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using ItemControllers;
 using UnityEngine;
 
@@ -17,13 +18,17 @@ public class SoundsPlayer : MonoBehaviour
         itemsPositioner.ItemOnSlotPos += OnItemSuccess;
     }
 
-    private void OnItemSuccess(DragHandler dragHandler, ItemSlot itemSlot)
+    private  async void OnItemSuccess(DragHandler dragHandler, ItemSlot itemSlot)
     {
+        await UniTask.WaitUntil(() => (!itemAppear.isPlaying) && (!itemSuccess.isPlaying));
         itemSuccess.Play();
     }
 
-    private void OnItemCreated(DragHandler dragHandler)
+    private async void OnItemCreated(DragHandler dragHandler)
     {
+        await UniTask.WaitUntil(() => (!itemAppear.isPlaying) && (!itemSuccess.isPlaying));
         itemAppear.Play();
     }
+
+ 
 }

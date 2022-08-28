@@ -13,7 +13,7 @@ public class GameLogicController : MonoBehaviour
     [SerializeField] private ItemsCreator itemCreator;
     [SerializeField] private ItemParentSetter itemParentSetter;
     [SerializeField] private SoundsPlayer soundsPlayer;
-
+    [SerializeField] private ItemAnimatedMover itemAnimatedMover;
     [SerializeField] private RectTransform victorySqreen;
 
     private ItemsRandomizer _itemOnBoardRandomizer;
@@ -27,9 +27,12 @@ public class GameLogicController : MonoBehaviour
     {
         _itemOnBoardRandomizer = new ItemsRandomizer(seed);
         _itemsPositioner = new ItemsPositioner(itemCreator);
+        
         itemParentSetter.Init(_itemsPositioner, itemCreator);
         itemCreator.Init(_itemOnBoardRandomizer, this);
         soundsPlayer.Init(itemCreator, _itemsPositioner);
+        itemAnimatedMover.Init(itemParentSetter);
+        
         _itemOnBoardRandomizer.RandomizeItem(itemsWithSlots, countSlotsOnBoard);
     }
 
