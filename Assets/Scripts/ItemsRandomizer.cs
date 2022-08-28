@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
 using System.Linq;
@@ -14,16 +12,18 @@ public class ItemsRandomizer
         Random.InitState(seed);
     }
 
-    public void RandomizeItem(List<ItemsWithSlot> itemWithSlots, int countSlotsOnBoard)
+    public void RandomizeItem(ItemsWithSlot[] itemWithSlots, int countSlotsOnBoard)
     {
+
+        List<ItemsWithSlot> itemsWithSlotCopy = new List<ItemsWithSlot>(itemWithSlots.ToList());
         
         var currentGameItemsWithSlots = new List<ItemsWithSlot>();
 
         while (currentGameItemsWithSlots.Count < countSlotsOnBoard)
         {
-            var index = Random.Range(0, itemWithSlots.Count);
-            var itemWithSlot = itemWithSlots[index];
-            itemWithSlots.Remove(itemWithSlot);
+            var index = Random.Range(0, itemsWithSlotCopy.Count);
+            var itemWithSlot = itemsWithSlotCopy[index];
+            itemsWithSlotCopy.Remove(itemWithSlot);
             currentGameItemsWithSlots.Add(itemWithSlot);
         }
 

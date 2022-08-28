@@ -6,6 +6,6 @@ using UnityEngine;
 
 [Serializable]
 public class ItemSlot : MonoBehaviour
-{  
-    public int StartPos {get; private set;}
+{
+    public int groupID;
 }

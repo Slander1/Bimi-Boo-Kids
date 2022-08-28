@@ -1,37 +1,49 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 
 public class ItemsCreator : MonoBehaviour
 {
-    public event Action<Item> ItemCreated;
+    public event Action<DragHandler> ItemCreated;
     public event Action<List<ItemSlot>> ItemSlotCreated;
 
     private ItemsRandomizer _itemOnBoardRandomizer;
 
-    private List<Item> _items = new List<Item>();
-    private List<ItemSlot> _itemSlots = new List<ItemSlot>();
+    private readonly List<Item> _items = new();
+    private readonly List<ItemSlot> _itemSlots = new();
 
 
-    public void Init(ItemsRandomizer itemOnBoardRandomizer)
+    public void Init(ItemsRandomizer itemOnBoardRandomizer, Action<DragHandler> itemOnSlotPosAndNotEndGame)
     {
         _itemOnBoardRandomizer = itemOnBoardRandomizer;
-        Subscribe();
+        Subscribe(itemOnSlotPosAndNotEndGame);
     }
 
 
-    private void Subscribe()
+    private void Subscribe(Action<DragHandler> itemOnSlotPosAndNotEndGame)
     {
         _itemOnBoardRandomizer.RandomizeEnded += InstantiateItems;
+        itemOnSlotPosAndNotEndGame += OnItemOnSlotPos;
+    }
+
+    private void OnItemOnSlotPos(DragHandler dragHandler)
+    {
+        _items.Remove(dragHandler.item);
+        dragHandler.enabled = false;
+        InstantiateMainItem();
     }
 
     private void InstantiateItems(List<ItemsWithSlot> itemsWithSlots)
     {
-        foreach (var itemWithSlot in itemsWithSlots)
+        for (int i = 0; i < itemsWithSlots.Count; i++)
         {
-            _items.Add(itemWithSlot.ItemElement);
-            _itemSlots.Add(itemWithSlot.ItemSlotElement);
+            var item = itemsWithSlots[i];
+
+            _items.Add(item.itemElement);
+            _itemSlots.Add(item.itemSlotElement);
+
+            item.itemElement.groupID = i;
+            item.itemSlotElement.groupID = i;
         }
 
         InstantiateMainItem();
@@ -44,7 +56,7 @@ public class ItemsCreator : MonoBehaviour
 
         var item = Instantiate(_items[index]);
 
-        ItemCreated?.Invoke(item);
+        ItemCreated?.Invoke(item.GetComponent<DragHandler>());
     }
 
     private void InstantiateItemsSlots()
@@ -58,7 +70,6 @@ public class ItemsCreator : MonoBehaviour
         }
 
         ItemSlotCreated?.Invoke(instantiatesItemsSlots);
-
     }
 
     public void OnDisable()

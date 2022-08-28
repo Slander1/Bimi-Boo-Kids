@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496634079833520279}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.4753942, y: -0.58999306, z: 0.023910966}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 323285302669832084}
-  - component: {fileID: 4013800590142010914}
+  - component: {fileID: 3733076779607489385}
   m_Layer: 0
   m_Name: CherrySlot
   m_TagString: Untagged
@@ -117,7 +117,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4013800590142010914
+--- !u!114 &3733076779607489385
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,6 +126,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6399243094702574272}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2f35b8ed4c4346138bf9b7eb84f0483, type: 3}
+  m_Script: {fileID: 11500000, guid: 77aa7c84ccef24d0997328e6acb52f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
