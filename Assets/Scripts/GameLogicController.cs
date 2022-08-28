@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using ItemControllers;
 
 public class GameLogicController : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class GameLogicController : MonoBehaviour
 
     [SerializeField] private int seed = 1;
 
-    [SerializeField] private int countSlotsOnBoard = 3; // попробовать сделать создание image
+    [SerializeField] private int countSlotsOnBoard = 3;
 
     [SerializeField] private ItemsCreator itemCreator;
     [SerializeField] private ItemParentSetter itemParentSetter;
