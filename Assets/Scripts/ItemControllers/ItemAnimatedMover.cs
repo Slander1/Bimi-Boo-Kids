@@ -46,13 +46,13 @@ namespace ItemControllers
 
         private async void OnItemParentSetOrItemNotSuccessed(DragHandler dragHandler,  bool isAppear)
         {
-            dragHandler.BeginningDragging += OnBeginnindDragging;
+            dragHandler.BeginningDragging += OnBeginningDragging;
             await MoveToPosition(dragHandler.transform, true, isAppear);
-            dragHandler.BeginningDragging -= OnBeginnindDragging;
+            dragHandler.BeginningDragging -= OnBeginningDragging;
             _isDragging = false;
         }
 
-        private void OnBeginnindDragging(DragHandler obj)
+        private void OnBeginningDragging(DragHandler obj)
         {
             _isDragging = true;
         }
