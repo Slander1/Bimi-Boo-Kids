@@ -46,8 +46,9 @@ namespace ItemControllers
                 item.itemSlotElement.groupID = i;
             }
 
-            InstantiateMainItem();
+            
             InstantiateItemsSlots();
+            InstantiateMainItem();
         }
 
         private void InstantiateMainItem()
