@@ -32,7 +32,7 @@ namespace ItemControllers
         private async void OnItemNotSuccessed(DragHandler dragHandler)
         {
             dragHandler.enabled = false;
-            await MoveToPosition(dragHandler.transform, true);
+            await MoveToPosition(dragHandler.transform, true, false);
             dragHandler.enabled = true;
         }
 
@@ -44,30 +44,30 @@ namespace ItemControllers
         private async void OnItemParentSet(DragHandler dragHandler)
         {
             dragHandler.enabled = false;
-            await MoveToPosition(dragHandler.transform, true, true);
+            await MoveToPosition(dragHandler.transform, true);
             dragHandler.enabled = true;
         }
 
-        private async UniTask MoveToPosition(Transform transformItem, bool isItem = false, bool isAppear = false)
+        private async UniTask MoveToPosition(Transform transformItem, bool isItem = false, bool isAppear = true)
         {
-            
             _dragHandlers.Enqueue(transformItem);
             
             await UniTask.WaitWhile(() => _dragHandlers.Peek() != transformItem);
             
-            if (isItem && isAppear)
+            if (isAppear)
                 ItemAppeared?.Invoke();
             
             var z = (isItem) ? -4 : -2;
-            
-            while (( transformItem.localPosition.x > 0.2f) &&
-                   ( transformItem.localPosition.y > 0.2f))
+            var i = 1;
+            while (( transformItem.localPosition.x > 0.5f) &&
+                   ( transformItem.localPosition.y > 0.5f))
             {
                 var localPosition = transformItem.localPosition;
                 localPosition = Vector3.Lerp(new Vector3(localPosition.x, localPosition.y, z)
-                , new Vector3(0,0, z), 3*Time.deltaTime);
+                , new Vector3(0,0, z), moveCurve.Evaluate(i) *Time.deltaTime);
                 transformItem.localPosition = localPosition;
                 await UniTask.NextFrame();
+                i++;
             }
 
             transformItem.localPosition = new Vector3(0, 0, z);
