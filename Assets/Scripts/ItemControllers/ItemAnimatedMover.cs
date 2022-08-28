@@ -13,6 +13,8 @@ namespace ItemControllers
         private ItemsPositioner _itemsPositioner;
         private readonly Queue<Transform> _dragHandlers = new();
 
+        private bool _isDragging = false;
+
         public event Action ItemAppeared; 
 
         public void Init(ItemParentSetter itemParentSetter, ItemsPositioner itemsPositioner)
@@ -25,34 +27,34 @@ namespace ItemControllers
         private void Subscribe()
         {
             _itemParentSetter.ParentSet += OnSlotParentSet;
-            _itemParentSetter.ItemParentSet += OnItemParentSet;
-            _itemsPositioner.ItemNotSuccessed += OnItemNotSuccessed;
+            _itemParentSetter.ItemParentSet += OnItemParentSetOrItemNotSuccessed;
+            _itemsPositioner.ItemNotSuccessed += OnItemParentSetOrItemNotSuccessed;
         }
         
         private void OnDisable()
         {
             _itemParentSetter.ParentSet -= OnSlotParentSet;
-            _itemParentSetter.ItemParentSet -= OnItemParentSet;
-            _itemsPositioner.ItemNotSuccessed -= OnItemNotSuccessed;
+            _itemParentSetter.ItemParentSet -= OnItemParentSetOrItemNotSuccessed;
+            _itemsPositioner.ItemNotSuccessed -= OnItemParentSetOrItemNotSuccessed;
         }
-
-        private async void OnItemNotSuccessed(DragHandler dragHandler)
-        {
-            dragHandler.enabled = false;
-            await MoveToPosition(dragHandler.transform, true, false);
-            dragHandler.enabled = true;
-        }
+        
 
         private async void OnSlotParentSet(Transform slotTransform)
         {
             await MoveToPosition(slotTransform);
         }
 
-        private async void OnItemParentSet(DragHandler dragHandler)
+        private async void OnItemParentSetOrItemNotSuccessed(DragHandler dragHandler,  bool isAppear)
         {
-            dragHandler.enabled = false;
-            await MoveToPosition(dragHandler.transform, true);
-            dragHandler.enabled = true;
+            dragHandler.BeginningDragging += OnBeginnindDragging;
+            await MoveToPosition(dragHandler.transform, true, isAppear);
+            dragHandler.BeginningDragging -= OnBeginnindDragging;
+            _isDragging = false;
+        }
+
+        private void OnBeginnindDragging(DragHandler obj)
+        {
+            _isDragging = true;
         }
 
         private async UniTask MoveToPosition(Transform transformItem, bool isItem = false, bool isAppear = true)
@@ -75,6 +77,12 @@ namespace ItemControllers
                 transformItem.localPosition = localPosition;
                 await UniTask.NextFrame();
                 i++;
+                
+                if (_isDragging)
+                {
+                    _dragHandlers.Dequeue();
+                    return;
+                }
             }
 
             transformItem.localPosition = new Vector3(0, 0, z);

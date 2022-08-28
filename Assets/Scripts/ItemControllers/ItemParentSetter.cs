@@ -16,7 +16,7 @@ namespace ItemControllers
         private ItemsCreator _itemsCreator;
 
         public event Action<Transform> ParentSet; 
-        public event Action<DragHandler> ItemParentSet; 
+        public event Action<DragHandler, bool> ItemParentSet; 
 
         public void Init(ItemsPositioner itemsPositioner, ItemsCreator itemsCreator)
         {
@@ -50,7 +50,7 @@ namespace ItemControllers
             var itemTransform = dragHandler.transform;
             itemTransform.SetParent(itemContainer, true);
             dragHandler.transform.position = itemCreatePoint.transform.position;
-            ItemParentSet?.Invoke(dragHandler);
+            ItemParentSet?.Invoke(dragHandler, true);
         }
 
         private void OnItemSlotCreated(List<ItemSlot> itemsSlots)

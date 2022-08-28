@@ -14,6 +14,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     private Camera _camera;
     
     public event Action<DragHandler> DragEnded;
+    public event Action<DragHandler> BeginningDragging;
     public event Action<DragHandler, Vector3> Dragging;
 
 
@@ -29,6 +30,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         _screenPoint = _camera.WorldToScreenPoint(position);
         _offset = position - _camera.ScreenToWorldPoint(new Vector3(eventData.position.x,
             eventData.position.y, _screenPoint.z));
+        BeginningDragging?.Invoke(this);
     }
 
     public void OnDrag(PointerEventData eventData)

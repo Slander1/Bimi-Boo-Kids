@@ -11,7 +11,7 @@ namespace ItemControllers
 
         public event Action<DragHandler, ItemSlot> ItemSuccessed;
         
-        public event Action<DragHandler> ItemNotSuccessed;
+        public event Action<DragHandler, bool> ItemNotSuccessed;
         
 
         public ItemsPositioner(ItemsCreator itemsCreator)
@@ -55,7 +55,7 @@ namespace ItemControllers
                 UnSubscribeOnDrag(dragHandler);
             }
             else
-                ItemNotSuccessed?.Invoke(dragHandler);
+                ItemNotSuccessed?.Invoke(dragHandler, false);
         }
 
         private void OnDragging(DragHandler dragHandler, Vector3 dragPos)
