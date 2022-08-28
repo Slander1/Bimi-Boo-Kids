@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -10,11 +10,15 @@ namespace ItemControllers
         [SerializeField] private AnimationCurve moveCurve;
                 
         private ItemParentSetter _itemParentSetter;
-        private readonly Queue<Transform> _dragHandlers = new(); 
-        
-        public void Init(ItemParentSetter itemParentSetter)
+        private ItemsPositioner _itemsPositioner;
+        private readonly Queue<Transform> _dragHandlers = new();
+
+        public event Action ItemAppeared; 
+
+        public void Init(ItemParentSetter itemParentSetter, ItemsPositioner itemsPositioner)
         {
             _itemParentSetter = itemParentSetter;
+            _itemsPositioner = itemsPositioner;
             Subscribe();
         }
         
@@ -22,39 +26,51 @@ namespace ItemControllers
         {
             _itemParentSetter.ParentSet += OnSlotParentSet;
             _itemParentSetter.ItemParentSet += OnItemParentSet;
+            _itemsPositioner.ItemNotSuccessed += OnItemNotSuccessed;
+        }
+
+        private async void OnItemNotSuccessed(DragHandler dragHandler)
+        {
+            dragHandler.enabled = false;
+            await MoveToPosition(dragHandler.transform, true);
+            dragHandler.enabled = true;
         }
 
         private async void OnSlotParentSet(Transform slotTransform)
         {
-            await OnParentSet(slotTransform);
+            await MoveToPosition(slotTransform);
         }
 
         private async void OnItemParentSet(DragHandler dragHandler)
         {
-            
             dragHandler.enabled = false;
-            await OnParentSet(dragHandler.transform);
+            await MoveToPosition(dragHandler.transform, true, true);
             dragHandler.enabled = true;
-            var pos = dragHandler.transform.position;
-            dragHandler.transform.position = new Vector3(pos.x, pos.y, -4);
         }
 
-        private async UniTask OnParentSet(Transform transformItem)
+        private async UniTask MoveToPosition(Transform transformItem, bool isItem = false, bool isAppear = false)
         {
             
             _dragHandlers.Enqueue(transformItem);
             
             await UniTask.WaitWhile(() => _dragHandlers.Peek() != transformItem);
             
-            while (( transformItem.localPosition.x > 0.01f) &&
-                   ( transformItem.localPosition.y > 0.01f))
+            if (isItem && isAppear)
+                ItemAppeared?.Invoke();
+            
+            var z = (isItem) ? -4 : -2;
+            
+            while (( transformItem.localPosition.x > 0.2f) &&
+                   ( transformItem.localPosition.y > 0.2f))
             {
                 var localPosition = transformItem.localPosition;
-                localPosition = Vector3.Lerp(new Vector3(localPosition.x, localPosition.y, -2)
-                , new Vector3(0,0, -2), 3*Time.deltaTime);
+                localPosition = Vector3.Lerp(new Vector3(localPosition.x, localPosition.y, z)
+                , new Vector3(0,0, z), 3*Time.deltaTime);
                 transformItem.localPosition = localPosition;
                 await UniTask.NextFrame();
             }
+
+            transformItem.localPosition = new Vector3(0, 0, z);
 
             _dragHandlers.Dequeue();
         }

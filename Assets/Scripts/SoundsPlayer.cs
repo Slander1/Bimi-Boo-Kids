@@ -7,24 +7,24 @@ public class SoundsPlayer : MonoBehaviour
     [SerializeField] private AudioSource itemAppear;
     [SerializeField] private AudioSource itemSuccess;
 
-    public void Init(ItemsCreator itemsCreator, ItemsPositioner itemsPositioner)
+    public void Init(ItemAnimatedMover itemAnimatedMover, ItemsPositioner itemsPositioner)
     {
-        Subscribe(itemsCreator, itemsPositioner);
+        Subscribe(itemAnimatedMover, itemsPositioner);
     }
 
-    private void Subscribe(ItemsCreator itemsCreator, ItemsPositioner itemsPositioner)
+    private void Subscribe(ItemAnimatedMover itemAnimatedMover, ItemsPositioner itemsPositioner)
     {
-        itemsCreator.ItemCreated += OnItemCreated;
-        itemsPositioner.ItemOnSlotPos += OnItemSuccess;
+        itemAnimatedMover.ItemAppeared += OnItemAppeared;
+        itemsPositioner.ItemSuccessed += OnItemSuccessed;
     }
 
-    private  async void OnItemSuccess(DragHandler dragHandler, ItemSlot itemSlot)
+    private  async void OnItemSuccessed(DragHandler dragHandler, ItemSlot itemSlot)
     {
         await UniTask.WaitUntil(() => (!itemAppear.isPlaying) && (!itemSuccess.isPlaying));
         itemSuccess.Play();
     }
 
-    private async void OnItemCreated(DragHandler dragHandler)
+    private async void OnItemAppeared()
     {
         await UniTask.WaitUntil(() => (!itemAppear.isPlaying) && (!itemSuccess.isPlaying));
         itemAppear.Play();

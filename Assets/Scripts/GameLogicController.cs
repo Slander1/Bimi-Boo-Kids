@@ -31,22 +31,22 @@ public class GameLogicController : MonoBehaviour
         
         itemParentSetter.Init(_itemsPositioner, itemCreator);
         itemCreator.Init(_itemOnBoardRandomizer, this);
-        soundsPlayer.Init(itemCreator, _itemsPositioner);
-        itemAnimatedMover.Init(itemParentSetter);
+        soundsPlayer.Init(itemAnimatedMover, _itemsPositioner);
+        itemAnimatedMover.Init(itemParentSetter, _itemsPositioner);
         
         _itemOnBoardRandomizer.RandomizeItem(itemsWithSlots, countSlotsOnBoard);
     }
 
     private void OnEnable()
     {
-        _itemsPositioner.ItemOnSlotPos += OnItemOnSlotPos;
+        _itemsPositioner.ItemSuccessed += OnItemSuccessed;
     }
 
     private void OnDisable()
     {
-        _itemsPositioner.ItemOnSlotPos -= OnItemOnSlotPos;
+        _itemsPositioner.ItemSuccessed -= OnItemSuccessed;
     }
-    private void OnItemOnSlotPos(DragHandler dragHandler, ItemSlot itemSlot)
+    private void OnItemSuccessed(DragHandler dragHandler, ItemSlot itemSlot)
     {
         _count++;
         if (_count == countSlotsOnBoard)

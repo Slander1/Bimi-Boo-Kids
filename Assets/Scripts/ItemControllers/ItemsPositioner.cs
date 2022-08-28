@@ -9,7 +9,10 @@ namespace ItemControllers
         private readonly ItemsCreator _itemsCreator;
         private List<ItemSlot> _itemsSlots;
 
-        public event Action<DragHandler, ItemSlot> ItemOnSlotPos;
+        public event Action<DragHandler, ItemSlot> ItemSuccessed;
+        
+        public event Action<DragHandler> ItemNotSuccessed;
+        
 
         public ItemsPositioner(ItemsCreator itemsCreator)
         {
@@ -47,9 +50,12 @@ namespace ItemControllers
             var requiredSlot = _itemsSlots.Find(itemSlot => itemSlot.groupID == dragHandler.item.groupID);
             if (IsNear(requiredSlot.transform, dragHandler.item.transform))
             { 
-                ItemOnSlotPos?.Invoke(dragHandler, requiredSlot);
+                ItemSuccessed?.Invoke(dragHandler, requiredSlot);
+                dragHandler.transform.localPosition = new Vector3(0, 0, -4);
                 UnSubscribeOnDrag(dragHandler);
             }
+            else
+                ItemNotSuccessed?.Invoke(dragHandler);
         }
 
         private void OnDragging(DragHandler dragHandler, Vector3 dragPos)

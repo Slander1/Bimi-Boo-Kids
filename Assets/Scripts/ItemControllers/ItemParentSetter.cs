@@ -29,10 +29,10 @@ namespace ItemControllers
         {
             _itemsCreator.ItemCreated += OnItemCreated;
             _itemsCreator.ItemSlotCreated += OnItemSlotCreated;
-            _itemsPositioner.ItemOnSlotPos += OnItemOnSlotPos;
+            _itemsPositioner.ItemSuccessed += OnItemSuccessed;
         }
 
-        private void OnItemOnSlotPos(DragHandler dragHandler, ItemSlot itemSlot)
+        private void OnItemSuccessed(DragHandler dragHandler, ItemSlot itemSlot)
         {
             var itemTransform = dragHandler.transform;
             itemTransform.SetParent(itemSlot.transform, true);
