@@ -13,29 +13,27 @@ public class ItemsCreator : MonoBehaviour
     private readonly List<ItemSlot> _itemSlots = new();
 
 
-    public void Init(ItemsRandomizer itemOnBoardRandomizer, Action<DragHandler> itemOnSlotPosAndNotEndGame)
+    public void Init(ItemsRandomizer itemOnBoardRandomizer, GameLogicController gameLogicController)
     {
         _itemOnBoardRandomizer = itemOnBoardRandomizer;
-        Subscribe(itemOnSlotPosAndNotEndGame);
+        gameLogicController.ItemOnSlotPosAndNotEndGame += OnItemOnSlotPos;
+        Subscribe();
     }
 
 
-    private void Subscribe(Action<DragHandler> itemOnSlotPosAndNotEndGame)
+    private void Subscribe()
     {
         _itemOnBoardRandomizer.RandomizeEnded += InstantiateItems;
-        itemOnSlotPosAndNotEndGame += OnItemOnSlotPos;
     }
 
     private void OnItemOnSlotPos(DragHandler dragHandler)
     {
-        _items.Remove(dragHandler.item);
-        dragHandler.enabled = false;
         InstantiateMainItem();
     }
 
     private void InstantiateItems(List<ItemsWithSlot> itemsWithSlots)
     {
-        for (int i = 0; i < itemsWithSlots.Count; i++)
+        for (var i = 0; i < itemsWithSlots.Count; i++)
         {
             var item = itemsWithSlots[i];
 
@@ -53,10 +51,10 @@ public class ItemsCreator : MonoBehaviour
     private void InstantiateMainItem()
     {
         var index = _itemOnBoardRandomizer.ChoseRandomItem(_items.Count);
-
         var item = Instantiate(_items[index]);
-
+        _items.RemoveAt(index);
         ItemCreated?.Invoke(item.GetComponent<DragHandler>());
+        
     }
 
     private void InstantiateItemsSlots()

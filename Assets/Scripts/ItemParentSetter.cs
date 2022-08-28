@@ -27,14 +27,14 @@ public class ItemParentSetter : MonoBehaviour
     {
         var itemTransform = dragHandler.transform;
         itemTransform.SetParent(itemSlot.transform, true);
-        SetTransform(itemTransform);
+        SetTransform(itemTransform, -2);
     }
 
     private void OnItemCreated(DragHandler dragHandler)
     {
         var itemTransform = dragHandler.transform;
         itemTransform.SetParent(itemContainer, true);
-        SetTransform(itemTransform);
+        SetTransform(itemTransform, -2);
     }
 
     private void OnItemSlotCreated(List<ItemSlot> itemsSlots)
@@ -43,13 +43,13 @@ public class ItemParentSetter : MonoBehaviour
         {
             var itemSlotTransform = itemsSlots[i].transform;
             itemSlotTransform.SetParent(itemsSlotsContainer[i], true);
-            SetTransform(itemSlotTransform);
+            SetTransform(itemSlotTransform, -1);
         }
     }
 
-    private static void SetTransform(Transform pos)
+    private static void SetTransform(Transform pos, int z)
     {
-        pos.localPosition = new Vector3(0, 0, -1);
+        pos.localPosition = new Vector3(0, 0, z);
     }
 
 }

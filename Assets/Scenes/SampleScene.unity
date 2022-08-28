@@ -322,6 +322,7 @@ RectTransform:
   - {fileID: 1916028318}
   - {fileID: 1022550983}
   - {fileID: 374107370}
+  - {fileID: 2035252457}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -650,16 +651,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemsWithSlots:
-  - ItemElement: {fileID: 7193080344380751988, guid: 0439a15bdf9f943e29485a7c4f021788, type: 3}
-    ItemSlotElement: {fileID: 653513991290086552, guid: a3d2516323b95476c8093953c780424b, type: 3}
-  - ItemElement: {fileID: 3969492310613201871, guid: e325b8db0d85a497aa2aee6afc1c2ff2, type: 3}
-    ItemSlotElement: {fileID: 3733076779607489385, guid: 7f87ef0e46ca04a35afce4a307367f89, type: 3}
-  - ItemElement: {fileID: 7905366045420774977, guid: 368fde0ab895648efb4fa15492c1e3fb, type: 3}
-    ItemSlotElement: {fileID: 7797329368123143043, guid: fd5136b9951cb48b3b765b16912a356e, type: 3}
+  - itemElement: {fileID: 7384552813907456134, guid: f203ec86977674930a0c6146ae791562, type: 3}
+    itemSlotElement: {fileID: 653513991290086552, guid: a3d2516323b95476c8093953c780424b, type: 3}
+  - itemElement: {fileID: 3969492310613201871, guid: e325b8db0d85a497aa2aee6afc1c2ff2, type: 3}
+    itemSlotElement: {fileID: 3733076779607489385, guid: 7f87ef0e46ca04a35afce4a307367f89, type: 3}
+  - itemElement: {fileID: 7905366045420774977, guid: 368fde0ab895648efb4fa15492c1e3fb, type: 3}
+    itemSlotElement: {fileID: 7797329368123143043, guid: fd5136b9951cb48b3b765b16912a356e, type: 3}
   seed: 1
   countSlotsOnBoard: 3
   itemCreator: {fileID: 1172718628}
-  ItemParentSetter: {fileID: 1964133306}
+  itemParentSetter: {fileID: 1964133306}
+  victorySqreen: {fileID: 2035252457}
 --- !u!1 &1000732982
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,6 +778,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bf0263246f444119123a1c9530c2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1239959894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1239959895}
+  - component: {fileID: 1239959897}
+  - component: {fileID: 1239959896}
+  m_Layer: 5
+  m_Name: Text (Legacy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1239959895
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239959894}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2035252457}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 300}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1239959896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239959894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'You are Winner!!!
+
+'
+--- !u!222 &1239959897
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239959894}
+  m_CullTransparentMesh: 1
 --- !u!1 &1361011071
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,3 +1018,80 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2035252456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2035252457}
+  - component: {fileID: 2035252459}
+  - component: {fileID: 2035252458}
+  m_Layer: 5
+  m_Name: Victory sqreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2035252457
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035252456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1239959895}
+  m_Father: {fileID: 208233058}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2035252458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035252456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.7877358, b: 0.7877358, a: 0.53333336}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2035252459
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035252456}
+  m_CullTransparentMesh: 1
