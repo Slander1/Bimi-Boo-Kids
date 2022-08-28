@@ -8,10 +8,9 @@ namespace ItemControllers
     public class ItemAnimatedMover : MonoBehaviour
     {
         [SerializeField] private AnimationCurve moveCurve;
-        
-        
+                
         private ItemParentSetter _itemParentSetter;
-        private Queue<Transform> _dragHandlers = new(); 
+        private readonly Queue<Transform> _dragHandlers = new(); 
         
         public void Init(ItemParentSetter itemParentSetter)
         {
@@ -21,23 +20,39 @@ namespace ItemControllers
         
         private void Subscribe()
         {
-            _itemParentSetter.ParentSet += OnParentSet;
+            _itemParentSetter.ParentSet += OnSlotParentSet;
+            _itemParentSetter.ItemParentSet += OnItemParentSet;
         }
 
-        private async void OnParentSet(Transform transformItem, int z)
+        private async void OnSlotParentSet(Transform slotTransform)
         {
+            await OnParentSet(slotTransform);
+        }
+
+        private async void OnItemParentSet(DragHandler dragHandler)
+        {
+            
+            dragHandler.enabled = false;
+            await OnParentSet(dragHandler.transform);
+            dragHandler.enabled = true;
+            var pos = dragHandler.transform.position;
+            dragHandler.transform.position = new Vector3(pos.x, pos.y, -4);
+        }
+
+        private async UniTask OnParentSet(Transform transformItem)
+        {
+            
             _dragHandlers.Enqueue(transformItem);
             
             await UniTask.WaitWhile(() => _dragHandlers.Peek() != transformItem);
-            var i = 1;
+            
             while (( transformItem.localPosition.x > 0.01f) &&
-                ( transformItem.localPosition.y > 0.01f))
+                   ( transformItem.localPosition.y > 0.01f))
             {
                 var localPosition = transformItem.localPosition;
                 localPosition = Vector3.Lerp(new Vector3(localPosition.x, localPosition.y, -2)
-                , new Vector3(0,0, z), 3*Time.deltaTime);
+                , new Vector3(0,0, -2), 3*Time.deltaTime);
                 transformItem.localPosition = localPosition;
-                i++;
                 await UniTask.NextFrame();
             }
 

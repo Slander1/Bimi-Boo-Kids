@@ -15,7 +15,8 @@ namespace ItemControllers
         private ItemsPositioner _itemsPositioner;
         private ItemsCreator _itemsCreator;
 
-        public event Action<Transform, int> ParentSet; 
+        public event Action<Transform> ParentSet; 
+        public event Action<DragHandler> ItemParentSet; 
 
         public void Init(ItemsPositioner itemsPositioner, ItemsCreator itemsCreator)
         {
@@ -44,7 +45,7 @@ namespace ItemControllers
             var itemTransform = dragHandler.transform;
             itemTransform.SetParent(itemContainer, true);
             dragHandler.transform.position = itemCreatePoint.transform.position;
-            ParentSet?.Invoke(dragHandler.transform, -4);
+            ItemParentSet?.Invoke(dragHandler);
             //SetTransform(itemTransform, -2);
         }
 
@@ -55,7 +56,7 @@ namespace ItemControllers
                 var itemSlotTransform = itemsSlots[i].transform;
                 itemSlotTransform.SetParent(itemsSlotsContainer[i], true);
                 itemSlotTransform.position = slotCreatePoint.transform.position;
-                ParentSet?.Invoke(itemSlotTransform, -2);
+                ParentSet?.Invoke(itemSlotTransform);
             }
         }
     }

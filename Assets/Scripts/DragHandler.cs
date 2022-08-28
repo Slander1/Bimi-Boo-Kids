@@ -19,7 +19,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private void Awake()
     {
-        item = GetComponent<Item>();
+         item = GetComponent<Item>();
         _camera = Camera.main;
     }
 
