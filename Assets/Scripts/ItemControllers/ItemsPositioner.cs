@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ItemControllers
 {
-    public class ItemsPositioner
+    public class ItemsPositioner 
     {
         private readonly ItemsCreator _itemsCreator;
         private List<ItemSlot> _itemsSlots;
@@ -24,7 +24,7 @@ namespace ItemControllers
         private void Subscribe()
         {
             _itemsCreator.ItemCreated += OnItemCreated ;
-            _itemsCreator.ItemSlotCreated += OnItemSlotCreated; ;
+            _itemsCreator.ItemSlotCreated += OnItemSlotCreated;
         }
 
         private void OnItemCreated(DragHandler dragHandler)
@@ -47,8 +47,8 @@ namespace ItemControllers
 
         private void OnDragEnded(DragHandler dragHandler)
         {
-            var requiredSlot = _itemsSlots.Find(itemSlot => itemSlot.groupID == dragHandler.item.groupID);
-            if (IsNear(requiredSlot.transform, dragHandler.item.transform))
+            var requiredSlot = _itemsSlots.Find(itemSlot => itemSlot.groupID == dragHandler.Item.groupID);
+            if (IsNear(requiredSlot.transform, dragHandler.Item.transform))
             { 
                 ItemSuccessed?.Invoke(dragHandler, requiredSlot);
                 dragHandler.transform.localPosition = new Vector3(0, 0, -4);
@@ -73,8 +73,11 @@ namespace ItemControllers
         {
             _itemsSlots = itemsSlots;
         }
-
-    
+        public void Unsubscribe()
+        {
+            _itemsCreator.ItemCreated -= OnItemCreated ;
+            _itemsCreator.ItemSlotCreated -= OnItemSlotCreated;
+        }
     }
 }
 

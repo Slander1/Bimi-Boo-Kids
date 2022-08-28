@@ -6,13 +6,13 @@ namespace ItemControllers
 {
     public class ItemsCreator : MonoBehaviour
     {
-        public event Action<DragHandler> ItemCreated;
-        public event Action<List<ItemSlot>> ItemSlotCreated;
-
         private ItemsRandomizer _itemOnBoardRandomizer;
 
         private readonly List<Item> _items = new();
         private readonly List<ItemSlot> _itemSlots = new();
+        
+        public event Action<DragHandler> ItemCreated;
+        public event Action<List<ItemSlot>> ItemSlotCreated;
 
 
         public void Init(ItemsRandomizer itemOnBoardRandomizer, GameLogicController gameLogicController)
@@ -28,6 +28,10 @@ namespace ItemControllers
             _itemOnBoardRandomizer.RandomizeEnded += InstantiateItems;
         }
 
+        private void OnDisable()
+        {
+            _itemOnBoardRandomizer.RandomizeEnded -= InstantiateItems;
+        }
         private void OnItemOnSlotPos(DragHandler dragHandler)
         {
             InstantiateMainItem();
@@ -71,11 +75,6 @@ namespace ItemControllers
             }
 
             ItemSlotCreated?.Invoke(instantiatesItemsSlots);
-        }
-
-        public void OnDisable()
-        {
-            _itemOnBoardRandomizer.RandomizeEnded -= InstantiateItems;
         }
     }
 }

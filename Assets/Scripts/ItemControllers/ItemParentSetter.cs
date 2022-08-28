@@ -31,13 +31,18 @@ namespace ItemControllers
             _itemsCreator.ItemSlotCreated += OnItemSlotCreated;
             _itemsPositioner.ItemSuccessed += OnItemSuccessed;
         }
+        
+        private void OnDisable()
+        {
+            _itemsCreator.ItemCreated -= OnItemCreated;
+            _itemsCreator.ItemSlotCreated -= OnItemSlotCreated;
+            _itemsPositioner.ItemSuccessed -= OnItemSuccessed;
+        }
 
         private void OnItemSuccessed(DragHandler dragHandler, ItemSlot itemSlot)
         {
             var itemTransform = dragHandler.transform;
             itemTransform.SetParent(itemSlot.transform, true);
-            //dragHandler.transform.position = slotCreatePoint.transform.position;
-            //SetTransform(itemTransform, -2);
         }
 
         private void OnItemCreated(DragHandler dragHandler)
@@ -46,12 +51,11 @@ namespace ItemControllers
             itemTransform.SetParent(itemContainer, true);
             dragHandler.transform.position = itemCreatePoint.transform.position;
             ItemParentSet?.Invoke(dragHandler);
-            //SetTransform(itemTransform, -2);
         }
 
         private void OnItemSlotCreated(List<ItemSlot> itemsSlots)
         {
-            for (int i = 0; i < itemsSlots.Count; i++)
+            for (var i = 0; i < itemsSlots.Count; i++)
             {
                 var itemSlotTransform = itemsSlots[i].transform;
                 itemSlotTransform.SetParent(itemsSlotsContainer[i], true);

@@ -14,10 +14,9 @@ namespace ItemControllers
             Random.InitState(seed);
         }
 
-        public void RandomizeItem(ItemsWithSlot[] itemWithSlots, int countSlotsOnBoard)
+        public void RandomizeItem(IEnumerable<ItemsWithSlot> itemWithSlots, int countSlotsOnBoard)
         {
-
-            List<ItemsWithSlot> itemsWithSlotCopy = new List<ItemsWithSlot>(itemWithSlots.ToList());
+            var itemsWithSlotCopy = new List<ItemsWithSlot>(itemWithSlots.ToList());
         
             var currentGameItemsWithSlots = new List<ItemsWithSlot>();
 

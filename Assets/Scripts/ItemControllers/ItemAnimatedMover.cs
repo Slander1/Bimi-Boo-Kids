@@ -28,6 +28,13 @@ namespace ItemControllers
             _itemParentSetter.ItemParentSet += OnItemParentSet;
             _itemsPositioner.ItemNotSuccessed += OnItemNotSuccessed;
         }
+        
+        private void OnDisable()
+        {
+            _itemParentSetter.ParentSet -= OnSlotParentSet;
+            _itemParentSetter.ItemParentSet -= OnItemParentSet;
+            _itemsPositioner.ItemNotSuccessed -= OnItemNotSuccessed;
+        }
 
         private async void OnItemNotSuccessed(DragHandler dragHandler)
         {

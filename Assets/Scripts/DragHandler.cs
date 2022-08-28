@@ -7,7 +7,7 @@ using System;
 
 public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [NonSerialized] public Item item;
+    public Item Item { get; private set; }
 
     private Vector3 _screenPoint;
     private Vector3 _offset;
@@ -19,7 +19,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private void Awake()
     {
-         item = GetComponent<Item>();
+         Item = GetComponent<Item>();
         _camera = Camera.main;
     }
 

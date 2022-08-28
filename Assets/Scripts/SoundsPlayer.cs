@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using ItemControllers;
 using UnityEngine;
@@ -7,15 +8,20 @@ public class SoundsPlayer : MonoBehaviour
     [SerializeField] private AudioSource itemAppear;
     [SerializeField] private AudioSource itemSuccess;
 
+    private ItemAnimatedMover _itemAnimatedMover;
+    private ItemsPositioner _itemsPositioner;
+
     public void Init(ItemAnimatedMover itemAnimatedMover, ItemsPositioner itemsPositioner)
     {
-        Subscribe(itemAnimatedMover, itemsPositioner);
+        _itemAnimatedMover = itemAnimatedMover;
+        _itemsPositioner = itemsPositioner;
+        Subscribe();
     }
 
-    private void Subscribe(ItemAnimatedMover itemAnimatedMover, ItemsPositioner itemsPositioner)
+    private void Subscribe()
     {
-        itemAnimatedMover.ItemAppeared += OnItemAppeared;
-        itemsPositioner.ItemSuccessed += OnItemSuccessed;
+        _itemAnimatedMover.ItemAppeared += OnItemAppeared;
+        _itemsPositioner.ItemSuccessed += OnItemSuccessed;
     }
 
     private  async void OnItemSuccessed(DragHandler dragHandler, ItemSlot itemSlot)
@@ -30,5 +36,9 @@ public class SoundsPlayer : MonoBehaviour
         itemAppear.Play();
     }
 
- 
+    private void OnDisable()
+    {
+        _itemAnimatedMover.ItemAppeared -= OnItemAppeared;
+        _itemsPositioner.ItemSuccessed -= OnItemSuccessed;
+    }
 }

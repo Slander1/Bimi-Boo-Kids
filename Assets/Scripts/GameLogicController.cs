@@ -45,6 +45,12 @@ public class GameLogicController : MonoBehaviour
     private void OnDisable()
     {
         _itemsPositioner.ItemSuccessed -= OnItemSuccessed;
+        UnsubscribeObject();
+    }
+
+    private void UnsubscribeObject()
+    {
+        _itemsPositioner.Unsubscribe();
     }
     private void OnItemSuccessed(DragHandler dragHandler, ItemSlot itemSlot)
     {
